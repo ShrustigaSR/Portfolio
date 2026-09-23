@@ -18,13 +18,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {project.description}
           </p>
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-5 flex flex-wrap gap-2">
             {project.technologies.map((technology) => (
-              <span key={technology} className="text-sm text-zinc-500">
+                <span
+                key={technology}
+                className="rounded-full border border-zinc-200 px-3 py-1 text-xs text-zinc-600"
+                >
                 {technology}
-              </span>
+                </span>
             ))}
-          </div>
+            </div>
         </div>
 
         <div className="shrink-0">
