@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navigation = [
@@ -12,6 +13,7 @@ const navigation = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="border-b border-zinc-200 bg-white">
@@ -28,15 +30,24 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-7 md:flex">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-zinc-600 transition-colors hover:text-zinc-950"
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navigation.map((item) => {
+            const isCurrentPage = pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isCurrentPage ? "page" : undefined}
+                className={`border-b-2 py-2 text-sm transition-colors ${
+                  isCurrentPage
+                    ? "border-zinc-950 font-medium text-zinc-950"
+                    : "border-transparent text-zinc-600 hover:text-zinc-950"
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
         </div>
 
         <button
@@ -57,16 +68,25 @@ export default function Navbar() {
           className="border-t border-zinc-200 px-6 py-3 md:hidden"
         >
           <div className="flex flex-col">
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="py-3 text-sm text-zinc-700 hover:text-zinc-950"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              const isCurrentPage = pathname === item.href;
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isCurrentPage ? "page" : undefined}
+                  className={`border-l-2 py-3 pl-3 text-sm ${
+                    isCurrentPage
+                      ? "border-zinc-950 font-medium text-zinc-950"
+                      : "border-transparent text-zinc-700 hover:text-zinc-950"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}
